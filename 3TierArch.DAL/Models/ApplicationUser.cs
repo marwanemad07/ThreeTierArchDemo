@@ -1,4 +1,5 @@
-﻿namespace _3TierArch.Models
+﻿
+namespace _3TierArch.DAL.Models
 {
     public class ApplicationUser : IdentityUser
     {

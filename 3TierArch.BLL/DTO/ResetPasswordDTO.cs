@@ -1,4 +1,4 @@
-﻿namespace _3TierArch.DTO
+﻿namespace _3TierArch.BLL.DTO
 {
     public class ResetPasswordDTO : PasswordConfirmation
     {

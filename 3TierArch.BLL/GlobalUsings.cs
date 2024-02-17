@@ -1,0 +1,13 @@
+﻿global using _3TierArch.BLL.DTO;
+global using _3TierArch.BLL.Services.Interfaces;
+global using _3TierArch.DAL.Repositories.Interfaces;
+global using _3TierArch.DAL.Models;
+global using System.ComponentModel.DataAnnotations;
+global using System.IdentityModel.Tokens.Jwt;
+global using Microsoft.IdentityModel.Tokens;
+global using Microsoft.Extensions.Configuration;
+global using MimeKit;
+global using MailKit.Net.Smtp;
+global using MailKit.Security;
+global using MimeKit.Text;
+global using MailKit.Net.Smtp;

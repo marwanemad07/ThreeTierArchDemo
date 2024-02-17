@@ -60,8 +60,9 @@ if (app.Environment.IsDevelopment()) {
 
 app.UseCors();
 
-app.UseAuthorization();
 app.UseAuthentication();
+app.UseAuthorization();
+
 
 app.MapControllers().RequireCors("default");
 
@@ -78,6 +79,5 @@ public static class Injection
     public static void InjectReposotories(WebApplicationBuilder builder)
     {
         builder.Services.AddTransient<IAccountRepo, AccountRepo>();
-        builder.Services.AddTransient<IMailSenderRepo, MailSenderRepo>();
     }
 }

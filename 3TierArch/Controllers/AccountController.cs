@@ -1,4 +1,6 @@
-﻿namespace _3TierArch.Controllers
+﻿using Microsoft.AspNetCore.Authorization;
+
+namespace _3TierArch.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

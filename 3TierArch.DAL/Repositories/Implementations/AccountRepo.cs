@@ -1,4 +1,4 @@
-﻿namespace _3TierArch.Repositories.Implementations
+﻿namespace _3TierArch.DAL.Repositories.Implementations
 {
     public class AccountRepo : IAccountRepo
     {
@@ -49,14 +49,14 @@
         {
             return await _userManager.GetRolesAsync(user);
         }
-        public async Task<bool> ResetPassword(ApplicationUser user, ResetPasswordDTO request)
+        public async Task<bool> ResetPassword(ApplicationUser user, string token, string password)
         {
-            var result = await _userManager.ResetPasswordAsync(user, request.Token, request.Password);
+            var result = await _userManager.ResetPasswordAsync(user, token, password);
             return result.Succeeded;
         }
-        public async Task<bool> ChangePassword(ApplicationUser user, ChangePasswordDTO request)
+        public async Task<bool> ChangePassword(ApplicationUser user, string oldPassword, string newPassword)
         {
-            var result = await _userManager.ChangePasswordAsync(user, request.OldPassword, request.NewPassword);
+            var result = await _userManager.ChangePasswordAsync(user, oldPassword, newPassword);
             return result.Succeeded;
         }
 

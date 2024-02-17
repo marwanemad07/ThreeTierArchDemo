@@ -1,4 +1,4 @@
-﻿namespace _3TierArch.Repositories.Interfaces
+﻿namespace _3TierArch.DAL.Repositories.Interfaces
 {
     public interface IAccountRepo
     {
@@ -11,7 +11,7 @@
         public Task<ApplicationUser?> GetUserByEmail(string email);
         public Task<bool> CheckPassword(ApplicationUser user, string password);
         public Task<IList<string>?> GetRoles(ApplicationUser user);
-        public Task<bool> ResetPassword(ApplicationUser user, ResetPasswordDTO request);
-        public Task<bool> ChangePassword(ApplicationUser user, ChangePasswordDTO request);
+        public Task<bool> ResetPassword(ApplicationUser user, string token, string password);
+        public Task<bool> ChangePassword(ApplicationUser user, string oldPassword, string newPassword);
     }
 }

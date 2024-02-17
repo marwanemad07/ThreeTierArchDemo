@@ -1,10 +1,11 @@
-﻿namespace _3TierArch.DTO
+﻿namespace _3TierArch.BLL.DTO
 {
     public class LoginUserDTO
     {
         [Required]
         [MinLength(4)]
-        public string email { get; set;}
+        [DataType(DataType.EmailAddress)]
+        public string Email { get; set;}
         [Required]
         [MinLength(8)]
         [DataType(DataType.Password)]

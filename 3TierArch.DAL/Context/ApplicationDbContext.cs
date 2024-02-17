@@ -1,6 +1,4 @@
-﻿
-
-namespace _3TierArch.Context
+﻿namespace _3TierArch.DAL.Context
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {

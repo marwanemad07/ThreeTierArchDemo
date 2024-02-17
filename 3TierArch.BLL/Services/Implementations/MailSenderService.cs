@@ -1,13 +1,32 @@
-﻿namespace _3TierArch.Repositories.Implementations
+﻿
+namespace _3TierArch.BLL.Services.Implementations
 {
-    public class MailSenderRepo : IMailSenderRepo
+    public class MailSenderService : IMailSenderService
     {
         private readonly IConfiguration _configuration;
-        public MailSenderRepo(IConfiguration configuration)
+        public MailSenderService(IConfiguration configuration)
         {
             _configuration = configuration;
         }
-        public async Task<int> Send(MimeMessage? email)
+        public async Task<int> Send(MailDataDTO mail)
+        {
+            try {
+                var email = new MimeMessage();
+                email.From.Add(MailboxAddress.Parse(_configuration.GetSection("MailSettings:UserName").Value));
+                email.To.Add(MailboxAddress.Parse(mail.EmailTo));
+                email.Subject = mail.Subject;
+                email.Body = new TextPart(TextFormat.Html) { Text = mail.Body };
+
+                await SendEmail(email);
+            }
+            catch (Exception ex) {
+                Console.WriteLine(ex.Message);
+                return -1;
+            }
+            return 0;
+        }
+
+        private async Task<int> SendEmail(MimeMessage? email)
         {
             try {
                 using var smtp = new SmtpClient();
@@ -25,5 +44,6 @@
             }
             return 0;
         }
+
     }
 }

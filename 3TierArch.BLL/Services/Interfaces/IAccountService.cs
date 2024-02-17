@@ -1,4 +1,4 @@
-﻿namespace _3TierArch.Services.Interfaces
+﻿namespace _3TierArch.BLL.Services.Interfaces
 {
     public interface IAccountService
     {

@@ -1,4 +1,8 @@
-﻿namespace _3TierArch.Services.Implementations
+﻿using System.Security.Claims;
+using System.Text;
+using System.Web;
+
+namespace _3TierArch.BLL.Services.Implementations
 {
     public class AccountService : IAccountService
     {
@@ -35,7 +39,7 @@
         public async Task<int> ConfirmEmail(string userId, string code)
         {
             var user = await _accountRepo.GetUserById(userId);
-            if (user == null)
+            if (user == null || user.EmailConfirmed)
                 return -1;
 
             var result = await _accountRepo.ConfirmEmail(user, code);
@@ -43,7 +47,7 @@
         }
         public async Task<JwtSecurityToken?> Login(LoginUserDTO user)
         {
-            var existUser = await _accountRepo.GetUserByEmail(user.email);
+            var existUser = await _accountRepo.GetUserByEmail(user.Email);
             if (IsNotConfirmedUser(existUser))
                 return null;
 
@@ -72,7 +76,7 @@
             if (user == null)
                 return -1;
             request.Token = HttpUtility.UrlDecode(request.Token);
-            var result = await _accountRepo.ResetPassword(user, request);
+            var result = await _accountRepo.ResetPassword(user, request.Token, request.Password);
             return result ? 0 : -1;
         }
         public async Task<int> ChangePassword(ChangePasswordDTO request)
@@ -80,7 +84,7 @@
             var user = await _accountRepo.GetUserById(request.UserId);
             if (user == null)
                 return -1;
-            var result = await _accountRepo.ChangePassword(user!, request);
+            var result = await _accountRepo.ChangePassword(user!, request.OldPassword, request.Password);
             return result ? 0 : -1;
         }
         private MailDataDTO GetMailData(ApplicationUser user, string url, string code,

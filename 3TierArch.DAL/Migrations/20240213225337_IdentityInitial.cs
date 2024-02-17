@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace _3TierArch.Migrations
+namespace _3TierArch.DAL.Migrations
 {
     /// <inheritdoc />
     public partial class IdentityInitial : Migration
