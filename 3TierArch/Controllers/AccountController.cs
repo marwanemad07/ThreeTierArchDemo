@@ -83,6 +83,7 @@ namespace _3TierArch.Controllers
             return BadRequest(ModelState.First());
         }
         [HttpPut("changePassword")]
+        [Authorize]
         public async Task<IActionResult> ChangePassword(ChangePasswordDTO request)
         {
             if (ModelState.IsValid) {

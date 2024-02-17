@@ -1,3 +1,7 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -20,9 +24,28 @@ builder.Services.Configure<IdentityOptions>(options => {
 Injection.InjectServices(builder);
 Injection.InjectReposotories(builder);
 
-builder.Services.AddCors(options => options.AddDefaultPolicy(options => {
-    options.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin();
-}));
+builder.Services.AddCors(options => {
+    options.AddDefaultPolicy(options => {
+        options.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin();
+    });
+    options.AddPolicy("ApiPolicy", options => options.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin()); 
+ });
+
+builder.Services.AddAuthentication(options => {
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(options => {
+    options.SaveToken = true;
+    options.TokenValidationParameters = new TokenValidationParameters {
+        ValidateIssuer = true,
+        ValidIssuer = builder.Configuration["JWT:Issuer"],
+        ValidateAudience = true,
+        ValidAudience = builder.Configuration["JWT:Audience"],
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8
+                                            .GetBytes(builder.Configuration["JWT:Key"]))
+    };
+});
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -58,7 +81,7 @@ if (app.Environment.IsDevelopment()) {
     app.UseDeveloperExceptionPage();
 }
 
-app.UseCors();
+app.UseCors("ApiPolicy");
 
 app.UseAuthentication();
 app.UseAuthorization();
